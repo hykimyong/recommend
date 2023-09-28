@@ -1,5 +1,4 @@
 import * as React from 'react';
-import styled from "@emotion/styled";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -9,6 +8,9 @@ import Avatar from '@mui/material/Avatar';
 import useMakeProfileImg from '../hook/makeProfileImg';
 import IconButton from '@mui/joy/IconButton';
 import Delete from '@mui/icons-material/Delete';
+import useMoveStation from '../hook/useMoveStation';
+import Typography from '@mui/material/Typography';
+import { useLocalStorage } from 'usehooks-ts';
 
 
 interface Props {
@@ -18,26 +20,50 @@ interface Props {
 
 const RegisterBjItem: React.FC<Props> = ({bjId,bjNick}) => {
 
+  const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', [])
+
   const makeProfileImg = useMakeProfileImg();
+  
   const profileImg = makeProfileImg(bjId);
 
+  const handleRemove = () =>{
+    const updatedBjList = recommendBjList.filter((bj) => bj.bjId !== bjId);
+    setRecommendBjList(updatedBjList);
+  }
+
+
   return (
-    <List dense sx={{mx:'auto', maxWidth:300, bgcolor: 'background.paper', textAlign:'center', cursor:'default' }}>
+    <List dense sx={{mx:'auto', maxWidth:300, bgcolor: 'background.paper', textAlign:'center'}}>
           <ListItem
             key={bjId}
             disablePadding
           >
-            <ListItemButton>
+            <ListItemButton sx={{ cursor: 'initial' }}>
               <ListItemAvatar>
                 <Avatar
                   alt={bjId}
                   src={profileImg}
+                  onClick={useMoveStation(`//bj.afreecatv.com/${bjId}`)}
                 />
               </ListItemAvatar>
-              <ListItemText id={bjId} primary={bjId} />
-              <ListItemText id={bjNick} primary={bjNick} />
+              <ListItemText
+                primary={bjId}
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      sx={{ display: 'inline' }}
+                      component="span"
+                      variant="body2"
+                      color="text.primary"
+                    >
+                      
+                    </Typography>
+                    {bjNick}
+                  </React.Fragment>
+                }
+              />
               <IconButton aria-label="Delete" size="sm" color="danger">
-              <Delete />
+              <Delete onClick={handleRemove}/>
             </IconButton>
             </ListItemButton>
           </ListItem>

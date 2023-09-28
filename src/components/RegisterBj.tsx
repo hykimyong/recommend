@@ -16,7 +16,7 @@ const RegisterBj: React.FC = () => {
   return (
     <>
     <FormLabel>등록된 ID</FormLabel>
-    {recommendBjList.map((item)=>(<RegisterBjItem bjId={item.bjId} bjNick={item.bjNick}/>))}
+    {recommendBjList.map((item, index)=>(<RegisterBjItem key={index} bjId={item.bjId} bjNick={item.bjNick}/>))}
     </>
   )
 }
