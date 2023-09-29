@@ -1,1 +1,5 @@
-/// <reference types="react-scripts" />
+let extensionSDK : any
+
+interface Window {
+    AFREECA: any;
+}

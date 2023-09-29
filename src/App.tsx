@@ -3,8 +3,18 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 // import Notfound from './pages/Notfound';
 import Bjscreen from './pages/Bjscreen';
 import Userscreen from './pages/Userscreen';
+import useExtScript from './hook/useExtScript';
 
 function App() {
+
+  const handleScriptCallback = () => {  
+    if (window.AFREECA) {
+      extensionSDK = window.AFREECA.ext();
+    }
+  };
+
+  useExtScript('https://static.afreecatv.com/asset/app/extension-helper/afreecatv-extension-sdk.js', handleScriptCallback);
+
   return (
     <BrowserRouter>
       <Routes>

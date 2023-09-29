@@ -1,9 +1,10 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { FormLabel } from '@mui/material';
 import { useLocalStorage } from 'usehooks-ts';
+import { IAuthInfo,IBroadInfo,IPlayerInfo } from '../types/extensionInterface';
 
 
 const Register: React.FC = () => {
@@ -19,7 +20,18 @@ const Register: React.FC = () => {
         }
       };
     
-    const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', [])
+    const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', []);
+
+    useEffect(()=>{
+      extensionSDK.handleInitialization((authInfo :IAuthInfo, broadInfo:IBroadInfo, playerInfo: IPlayerInfo)=>{
+              extensionSDK.broadcast.listen(function(action : string, message :string, fromId:string){
+                  if(action === "recommend-user" && fromId !== ""){
+                    extensionSDK.broadcast.whisper(fromId, "recommend-user",{bjId:'d', bjNIck: 'nick'})
+                      // extensionSDK.broadcast.whisper(id, "lol-user-info-broad",{type:userRankType, tier: userTierData})
+                  }
+              });
+          })
+      },[])
 
     const handleClick = ()=>{
         if(!bjIdRef.current?.value){
@@ -28,6 +40,7 @@ const Register: React.FC = () => {
             alert('비제이의 닉네임을 입력하세요');
         }else{
             setRecommendBjList([...recommendBjList, {bjId:bjIdRef.current?.value, bjNick : bjNickRef.current?.value}]);
+            extensionSDK.broadcast.send("recommend-user",{bjId:bjIdRef.current?.value, bjNick: bjNickRef.current?.value});
             bjIdRef.current.value = "";
             bjNickRef.current.value = "";
         }
