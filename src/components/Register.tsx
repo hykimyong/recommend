@@ -5,12 +5,15 @@ import Button from '@mui/material/Button';
 import { FormLabel } from '@mui/material';
 import { useLocalStorage } from 'usehooks-ts';
 import { IAuthInfo,IBroadInfo,IPlayerInfo } from '../types/extensionInterface';
+import { useStore } from '../store/scriptLoad';
 
 
 const Register: React.FC = () => {
 
     const bjIdRef = useRef<HTMLTextAreaElement>();
     const bjNickRef = useRef<HTMLTextAreaElement>();
+
+    const { isTrue } = useStore();
 
     const handleInputChange = () => {
         const inputValue = bjIdRef.current?.value || '';
@@ -23,15 +26,18 @@ const Register: React.FC = () => {
     const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', []);
 
     useEffect(()=>{
-      extensionSDK.handleInitialization((authInfo :IAuthInfo, broadInfo:IBroadInfo, playerInfo: IPlayerInfo)=>{
-              extensionSDK.broadcast.listen(function(action : string, message :string, fromId:string){
-                  if(action === "recommend-user" && fromId !== ""){
-                    extensionSDK.broadcast.whisper(fromId, "recommend-user",{bjId:'d', bjNIck: 'nick'})
-                      // extensionSDK.broadcast.whisper(id, "lol-user-info-broad",{type:userRankType, tier: userTierData})
-                  }
-              });
+      
+      if(isTrue){
+        extensionSDK.handleInitialization((authInfo :IAuthInfo, broadInfo:IBroadInfo, playerInfo: IPlayerInfo)=>{
+          extensionSDK.broadcast.listen(function(action : string, message :string, fromId:string){
+              if(action === "recommend-user" && fromId !== ""){
+                extensionSDK.broadcast.whisper(fromId, "recommend-user",{bjId:'d', bjNIck: 'nick'})
+                  // extensionSDK.broadcast.whisper(id, "lol-user-info-broad",{type:userRankType, tier: userTierData})
+              }
+            });
           })
-      },[])
+        }
+      },[isTrue]);
 
     const handleClick = ()=>{
         if(!bjIdRef.current?.value){

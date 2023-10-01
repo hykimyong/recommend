@@ -4,13 +4,16 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Bjscreen from './pages/Bjscreen';
 import Userscreen from './pages/Userscreen';
 import useExtScript from './hook/useExtScript';
+import { useStore } from './store/scriptLoad';
 
 function App() {
+  const { setTrue } = useStore();
 
-  const handleScriptCallback = () => {  
+  const handleScriptCallback = () => {
     if (window.AFREECA) {
       extensionSDK = window.AFREECA.ext();
     }
+    setTrue();
   };
 
   useExtScript('https://static.afreecatv.com/asset/app/extension-helper/afreecatv-extension-sdk.js', handleScriptCallback);
