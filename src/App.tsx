@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 // import Notfound from './pages/Notfound';
 import Bjscreen from './pages/Bjscreen';
 import Userscreen from './pages/Userscreen';
-import useExtScript from './hook/useExtScript';
 import { useStore } from './store/scriptLoad';
 
 function App() {
@@ -16,7 +15,22 @@ function App() {
     setTrue();
   };
 
-  useExtScript('https://static.afreecatv.com/asset/app/extension-helper/afreecatv-extension-sdk.js', handleScriptCallback);
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://static.afreecatv.com/asset/app/extension-helper/afreecatv-extension-sdk.js';
+    script.async = true;
+
+    script.addEventListener('load', handleScriptCallback);
+
+    document.body.appendChild(script);
+
+    return () => {
+      script.removeEventListener('load', handleScriptCallback);
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  
 
   return (
     <BrowserRouter>
