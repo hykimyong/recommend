@@ -14,13 +14,13 @@ const RegisterBj: React.FC = () => {
         if (storedData) {
             setRecommendBjList(JSON.parse(storedData));
         }
-      }, []);
+      }, [setRecommendBjList]);
 
     useEffect(()=>{
       if(isTrue){
         extensionSDK.broadcast.send("recommend-user",recommendBjList);
       }
-    },[isTrue]);
+    },[recommendBjList,isTrue]);
 
   return (
     <>

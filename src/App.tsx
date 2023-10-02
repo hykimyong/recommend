@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 // import Notfound from './pages/Notfound';
 import Bjscreen from './pages/Bjscreen';
@@ -8,12 +8,12 @@ import { useStore } from './store/scriptLoad';
 function App() {
   const { setTrue } = useStore();
 
-  const handleScriptCallback = () => {
+  const handleScriptCallback = useCallback(() => {
     if (window.AFREECA) {
       extensionSDK = window.AFREECA.ext();
     }
     setTrue();
-  };
+  },[setTrue]);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -28,7 +28,7 @@ function App() {
       script.removeEventListener('load', handleScriptCallback);
       document.body.removeChild(script);
     };
-  }, []);
+  }, [handleScriptCallback]);
 
   return (
     <BrowserRouter>

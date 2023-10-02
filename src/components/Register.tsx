@@ -37,13 +37,13 @@ const Register: React.FC = () => {
             });
           })
         }
-      },[isTrue]);
+      },[isTrue,recommendBjList]);
 
     useEffect(()=>{
       if(isTrue){
         extensionSDK.broadcast.send("recommend-user",recommendBjList);
       }
-    },[recommendBjList]);
+    },[recommendBjList,isTrue]);
 
     const handleClick = ()=>{
         if(!bjIdRef.current?.value){
