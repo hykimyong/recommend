@@ -30,13 +30,13 @@ const Register: React.FC = () => {
       if(isTrue){
         extensionSDK.handleInitialization((authInfo :IAuthInfo, broadInfo:IBroadInfo, playerInfo: IPlayerInfo)=>{
           extensionSDK.broadcast.listen(function(action : string, message :string, fromId:string){
-              if(action === "recommend-user" && fromId !== ""){
-                extensionSDK.broadcast.whisper(fromId, "recommend-user",{bjId:'d', bjNIck: 'nick'})
-                  // extensionSDK.broadcast.whisper(id, "lol-user-info-broad",{type:userRankType, tier: userTierData})
+              //유저측에서 
+              if(action === "recommend-user-list"){
+                extensionSDK.broadcast.send("recommend-user",recommendBjList);
               }
             });
           })
-        }
+        }ㅛ
       },[isTrue]);
 
     const handleClick = ()=>{
@@ -46,7 +46,8 @@ const Register: React.FC = () => {
             alert('비제이의 닉네임을 입력하세요');
         }else{
             setRecommendBjList([...recommendBjList, {bjId:bjIdRef.current?.value, bjNick : bjNickRef.current?.value}]);
-            extensionSDK.broadcast.send("recommend-user",{bjId:bjIdRef.current?.value, bjNick: bjNickRef.current?.value});
+            console.log('send');
+            extensionSDK.broadcast.send("recommend-user",recommendBjList);
             bjIdRef.current.value = "";
             bjNickRef.current.value = "";
         }

@@ -11,16 +11,9 @@ const RecommendBj: React.FC = () => {
   useEffect(()=>{
     
     if(isTrue){
-      console.log(extensionSDK);
-      extensionSDK.handleInitialization((authInfo :IAuthInfo, broadInfo:IBroadInfo, playerInfo: IPlayerInfo)=>{
         extensionSDK.broadcast.listen(function(action : string, message :string, fromId:string){
           console.log(action,message,fromId);
-            if(action === "recommend-user" && fromId !== ""){
-              extensionSDK.broadcast.whisper(fromId, "recommend-user",{bjId:'d', bjNIck: 'nick'})
-                // extensionSDK.broadcast.whisper(id, "lol-user-info-broad",{type:userRankType, tier: userTierData})
-            }
-          });
-        })
+        });
       }
     },[isTrue]);
 
