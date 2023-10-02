@@ -16,9 +16,10 @@ import { useLocalStorage } from 'usehooks-ts';
 interface Props {
     bjId: string;
     bjNick: string;
+    display: boolean;
   }
 
-const RegisterBjItem: React.FC<Props> = ({bjId,bjNick}) => {
+const RegisterBjItem: React.FC<Props> = ({bjId,bjNick,display}) => {
 
   const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', [])
 
@@ -62,9 +63,9 @@ const RegisterBjItem: React.FC<Props> = ({bjId,bjNick}) => {
                   </React.Fragment>
                 }
               />
-              <IconButton aria-label="Delete" size="sm" color="danger">
+              {display ? <IconButton aria-label="Delete" size="sm" color="danger">
               <Delete onClick={handleRemove}/>
-            </IconButton>
+            </IconButton> : <></>}
             </ListItemButton>
           </ListItem>
     </List>

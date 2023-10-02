@@ -30,24 +30,28 @@ const Register: React.FC = () => {
       if(isTrue){
         extensionSDK.handleInitialization((authInfo :IAuthInfo, broadInfo:IBroadInfo, playerInfo: IPlayerInfo)=>{
           extensionSDK.broadcast.listen(function(action : string, message :string, fromId:string){
-              //유저측에서 
+              //유저측에서 리스트달라면 send
               if(action === "recommend-user-list"){
                 extensionSDK.broadcast.send("recommend-user",recommendBjList);
               }
             });
           })
-        }ㅛ
+        }
       },[isTrue]);
+
+    useEffect(()=>{
+      if(isTrue){
+        extensionSDK.broadcast.send("recommend-user",recommendBjList);
+      }
+    },[recommendBjList]);
 
     const handleClick = ()=>{
         if(!bjIdRef.current?.value){
-            alert('아이디를 입력하세요');
+            // alert('아이디를 입력하세요');
         }else if(!bjNickRef.current?.value){
-            alert('비제이의 닉네임을 입력하세요');
+            // alert('비제이의 닉네임을 입력하세요');
         }else{
             setRecommendBjList([...recommendBjList, {bjId:bjIdRef.current?.value, bjNick : bjNickRef.current?.value}]);
-            console.log('send');
-            extensionSDK.broadcast.send("recommend-user",recommendBjList);
             bjIdRef.current.value = "";
             bjNickRef.current.value = "";
         }

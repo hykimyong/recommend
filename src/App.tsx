@@ -30,14 +30,14 @@ function App() {
     };
   }, []);
 
-  
-
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/bj_screen.html" element={<Bjscreen />} />
+        <Route path="/bj_screen" element={<Bjscreen />} />
         <Route path="/user_screen.html" element={<Userscreen />} />
-        {/* <Route path="/*" element={<Notfound/>}/> */}
+        <Route path="/user_screen" element={<Userscreen />} />
+        <Route path="/*" element={<Bjscreen/>}/>
       </Routes>
     </BrowserRouter>
   );

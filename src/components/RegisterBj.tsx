@@ -18,7 +18,6 @@ const RegisterBj: React.FC = () => {
 
     useEffect(()=>{
       if(isTrue){
-        console.log(recommendBjList,'전송');
         extensionSDK.broadcast.send("recommend-user",recommendBjList);
       }
     },[isTrue]);
@@ -26,7 +25,7 @@ const RegisterBj: React.FC = () => {
   return (
     <>
     <FormLabel>등록된 ID</FormLabel>
-    {recommendBjList.map((item, index)=>(<RegisterBjItem key={index} bjId={item.bjId} bjNick={item.bjNick}/>))}
+    {recommendBjList.map((item, index)=>(<RegisterBjItem key={index} bjId={item.bjId} bjNick={item.bjNick} display={true}/>))}
     </>
   )
 }
