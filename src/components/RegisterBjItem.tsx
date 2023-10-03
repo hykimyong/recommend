@@ -21,6 +21,8 @@ interface Props {
 
 const RegisterBjItem: React.FC<Props> = ({bjId,bjNick,display}) => {
 
+  const textColor = display ? 'black' : 'white';
+
   const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', [])
 
   const makeProfileImg = useMakeProfileImg();
@@ -34,7 +36,7 @@ const RegisterBjItem: React.FC<Props> = ({bjId,bjNick,display}) => {
 
 
   return (
-    <List dense sx={{mx:'auto', maxWidth:300, bgcolor: 'rgba(255, 255, 255, 0.8)', textAlign:'center'}}>
+    <List dense sx={{mx:'auto', maxWidth:300, textAlign:'center'}}>
           <ListItem
             key={bjId}
             disablePadding
@@ -49,7 +51,8 @@ const RegisterBjItem: React.FC<Props> = ({bjId,bjNick,display}) => {
               </ListItemAvatar>
               <ListItemText
                 primary={bjId}
-                style={{ color: '#333' }}
+                
+                style={{ color: textColor }}
                 onClick={useOpenNewWindow(`//play.afreecatv.com/${bjId}`)}
                 secondary={
                   <React.Fragment>
@@ -57,11 +60,10 @@ const RegisterBjItem: React.FC<Props> = ({bjId,bjNick,display}) => {
                       sx={{ display: 'inline' }}
                       component="span"
                       variant="body2"
-                      color="text.primary"
+                      color="gray"
                     >
-                      
+                    {bjNick}  
                     </Typography>
-                    {bjNick}
                   </React.Fragment>
                 }
               />
