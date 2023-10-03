@@ -46,7 +46,9 @@ const Register: React.FC = () => {
     },[recommendBjList,isTrue]);
 
     const handleClick = ()=>{
-        if(!bjIdRef.current?.value){
+        if(recommendBjList.some(item => item.bjId === bjIdRef.current?.value)){
+          // console.log('동일한문자');
+        }else if(!bjIdRef.current?.value){
             // alert('아이디를 입력하세요');
         }else if(!bjNickRef.current?.value){
             // alert('비제이의 닉네임을 입력하세요');
