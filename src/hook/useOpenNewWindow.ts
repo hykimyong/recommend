@@ -1,4 +1,4 @@
-const useMoveStation = (url: string) => {
+const useOpenNewWindow = (url: string) => {
   return () => {
     // 새 창을 열기
     const newWindow = window.open(url, '_blank');
@@ -13,4 +13,4 @@ const useMoveStation = (url: string) => {
   };
 };
 
-export default useMoveStation;
+export default useOpenNewWindow;

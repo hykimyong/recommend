@@ -59,7 +59,7 @@ const Register: React.FC = () => {
 
   return (
     <>
-    <FormLabel>BJ아이디 등록하기</FormLabel>
+    <FormLabel>추천하는 BJ를 입력해주세요</FormLabel>
       <Box
         component="form"
         sx={{

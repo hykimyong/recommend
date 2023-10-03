@@ -8,7 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import useMakeProfileImg from '../hook/makeProfileImg';
 import IconButton from '@mui/joy/IconButton';
 import Delete from '@mui/icons-material/Delete';
-import useMoveStation from '../hook/useMoveStation';
+import useOpenNewWindow from '../hook/useOpenNewWindow';
 import Typography from '@mui/material/Typography';
 import { useLocalStorage } from 'usehooks-ts';
 
@@ -34,7 +34,7 @@ const RegisterBjItem: React.FC<Props> = ({bjId,bjNick,display}) => {
 
 
   return (
-    <List dense sx={{mx:'auto', maxWidth:300, bgcolor: 'background.paper', textAlign:'center'}}>
+    <List dense sx={{mx:'auto', maxWidth:300, bgcolor: 'rgba(255, 255, 255, 0.8)', textAlign:'center'}}>
           <ListItem
             key={bjId}
             disablePadding
@@ -44,11 +44,13 @@ const RegisterBjItem: React.FC<Props> = ({bjId,bjNick,display}) => {
                 <Avatar
                   alt={bjId}
                   src={profileImg}
-                  onClick={useMoveStation(`//bj.afreecatv.com/${bjId}`)}
+                  onClick={useOpenNewWindow(`//bj.afreecatv.com/${bjId}`)}
                 />
               </ListItemAvatar>
               <ListItemText
                 primary={bjId}
+                style={{ color: '#333' }}
+                onClick={useOpenNewWindow(`//play.afreecatv.com/${bjId}`)}
                 secondary={
                   <React.Fragment>
                     <Typography

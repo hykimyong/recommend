@@ -22,7 +22,7 @@ const RecommendBj: React.FC = () => {
 
   return (
     <>
-    <FormLabel className='Mui-error'>추천 ID</FormLabel>
+    <FormLabel className='Mui-focused'>추천 ID</FormLabel>
     {recommendBjList.map((item, index)=>(<RegisterBjItem key={index} bjId={item.bjId} bjNick={item.bjNick} display={false}/>))}
     </>
   )
