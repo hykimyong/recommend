@@ -3,6 +3,8 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 // import Notfound from './pages/Notfound';
 import Bjscreen from './pages/Bjscreen';
 import Userscreen from './pages/Userscreen';
+import MoUserScreen from './pages/MoUserScreen';
+
 import { useStore } from './store/scriptLoad';
 
 function App() {
@@ -37,6 +39,8 @@ function App() {
         <Route path="/bj_screen" element={<Bjscreen />} />
         <Route path="/user_screen.html" element={<Userscreen />} />
         <Route path="/user_screen" element={<Userscreen />} />
+        <Route path="/mo_user_screen.html" element={<MoUserScreen />} />
+        <Route path="/mo_user_screen" element={<MoUserScreen />} />
         <Route path="/*" element={<Bjscreen/>}/>
       </Routes>
     </BrowserRouter>
