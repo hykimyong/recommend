@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import RegisterBjItem from './RegisterBjItem';
 import { useStore } from '../store/scriptLoad';
 
-const RecommendBj: React.FC = () => {
+const MoRecommendBj: React.FC = () => {
 
   const { isTrue } = useStore();
   const [recommendBjList,setRecommendBjList] = useState<{ bjId: string; bjNick: string }[]>([]);
@@ -26,4 +26,4 @@ const RecommendBj: React.FC = () => {
   )
 }
 
-export default RecommendBj;
+export default MoRecommendBj;
