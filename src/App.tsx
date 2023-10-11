@@ -9,6 +9,7 @@ import { useStore } from './store/scriptLoad';
 
 function App() {
   const { setTrue } = useStore();
+  const basePath = window.location.pathname.replace(/\/[^/]*$/, '');
 
   const handleScriptCallback = useCallback(() => {
     if (window.AFREECA) {
@@ -35,13 +36,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/bj_screen.html" element={<Bjscreen />} />
-        <Route path="/bj_screen" element={<Bjscreen />} />
-        <Route path="/user_screen.html" element={<Userscreen />} />
-        <Route path="/user_screen" element={<Userscreen />} />
-        <Route path="/mo_user_screen.html" element={<MoUserScreen />} />
-        <Route path="/mo_user_screen" element={<MoUserScreen />} />
-        <Route path="/*" element={<Bjscreen/>}/>
+        <Route path={`${basePath}/bj_screen.html`} element={<Bjscreen />} />
+        <Route path={`${basePath}/bj_screen`} element={<Bjscreen />} />
+        <Route path={`${basePath}/user_screen.html`} element={<Userscreen />} />
+        <Route path={`${basePath}/user_screen`} element={<Userscreen />} />
+        <Route path={`${basePath}/mo_user_screen.html`} element={<MoUserScreen />} />
+        <Route path={`${basePath}/mo_user_screen`} element={<MoUserScreen />} />
       </Routes>
     </BrowserRouter>
   );
