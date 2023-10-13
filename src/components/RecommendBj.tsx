@@ -22,6 +22,7 @@ const RecommendBj: React.FC = () => {
   return (
     <>
     {recommendBjList.map((item, index)=>(<RegisterBjItem key={index} bjId={item.bjId} bjNick={item.bjNick} display={false}/>))}
+    {recommendBjList.length === 0 ? <>empty</>:<></>}
     </>
   )
 }
