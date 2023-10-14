@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import RegisterBjItem from './RegisterBjItem';
 import { useStore } from '../store/scriptLoad';
+import EmptyItem from './EmptyItem';
 
 const RecommendBj: React.FC = () => {
 
@@ -22,7 +23,7 @@ const RecommendBj: React.FC = () => {
   return (
     <>
     {recommendBjList.map((item, index)=>(<RegisterBjItem key={index} bjId={item.bjId} bjNick={item.bjNick} display={false}/>))}
-    {recommendBjList.length === 0 ? <>empty</>:<></>}
+    {recommendBjList.length === 0 ? <EmptyItem/>:<></>}
     </>
   )
 }
