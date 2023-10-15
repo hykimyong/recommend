@@ -22,6 +22,7 @@ interface Props {
 const RegisterBjItem: React.FC<Props> = ({bjId,bjNick,display}) => {
 
   const textColor = display ? 'black' : 'white';
+  const textColor2 = display ? 'gray' : 'white';
 
   const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', [])
 
@@ -60,7 +61,7 @@ const RegisterBjItem: React.FC<Props> = ({bjId,bjNick,display}) => {
                       sx={{ display: 'inline' }}
                       component="span"
                       variant="body2"
-                      color="gray"
+                      color={textColor2}
                     >
                     {bjNick}  
                     </Typography>

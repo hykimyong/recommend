@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -12,14 +12,18 @@ const Register: React.FC = () => {
 
     const bjIdRef = useRef<HTMLTextAreaElement>();
     const bjNickRef = useRef<HTMLTextAreaElement>();
+    const [invalidCheckText, setInvalidCheckText] = useState("");
+    
 
     const { isTrue } = useStore();
 
     const handleInputChange = () => {
         const inputValue = bjIdRef.current?.value || '';
         if (!/^[a-zA-Z0-9]+$/.test(inputValue)) {
-            alert('영문과 숫자만 입력가능합니다.');
+          setInvalidCheckText("아이디는 영문과 숫자만 입력가능합니다.");
           bjIdRef.current!.value = inputValue.replace(/[^a-zA-Z0-9]/g, '');
+        }else{
+          setInvalidCheckText("");
         }
       };
     
@@ -47,15 +51,16 @@ const Register: React.FC = () => {
 
     const handleClick = ()=>{
         if(recommendBjList.some(item => item.bjId === bjIdRef.current?.value)){
-          // console.log('동일한문자');
+          setInvalidCheckText('이미등록된 아이디입니다.');
         }else if(!bjIdRef.current?.value){
-            // alert('아이디를 입력하세요');
+          setInvalidCheckText('아이디를 입력해주세요.');
         }else if(!bjNickRef.current?.value){
-            // alert('비제이의 닉네임을 입력하세요');
+          setInvalidCheckText('비제이 닉네임을 입력해주세요');
         }else{
             setRecommendBjList([...recommendBjList, {bjId:bjIdRef.current?.value, bjNick : bjNickRef.current?.value}]);
             bjIdRef.current.value = "";
             bjNickRef.current.value = "";
+            setInvalidCheckText("");
         }
     }
 
@@ -77,7 +82,9 @@ const Register: React.FC = () => {
         <TextField inputRef ={bjNickRef} id="standard-basic" label="닉네임" variant="standard" />
         <Button variant="contained" onClick={handleClick}>추가</Button>  
       </Box>
-      <br/><br/>
+      <br/>
+      {invalidCheckText && <FormLabel className='Mui-error'>{invalidCheckText}</FormLabel>}
+      <br/>
       </>
   )
 }
