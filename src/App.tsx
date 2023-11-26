@@ -7,6 +7,10 @@ import MoUserScreen from './pages/MoUserScreen';
 
 import { useStore } from './store/scriptLoad';
 
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
+
 function App() {
   const { setTrue } = useStore();
   const basePath = window.location.pathname.replace(/\/[^/]*$/, '');
@@ -34,16 +38,18 @@ function App() {
   }, [handleScriptCallback]);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={`${basePath}/bj_screen.html`} element={<Bjscreen />} />
-        <Route path={`${basePath}/bj_screen`} element={<Bjscreen />} />
-        <Route path={`${basePath}/user_screen.html`} element={<Userscreen />} />
-        <Route path={`${basePath}/user_screen`} element={<Userscreen />} />
-        <Route path={`${basePath}/mo_user_screen.html`} element={<MoUserScreen />} />
-        <Route path={`${basePath}/mo_user_screen`} element={<MoUserScreen />} />
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path={`${basePath}/bj_screen.html`} element={<Bjscreen />} />
+          <Route path={`${basePath}/bj_screen`} element={<Bjscreen />} />
+          <Route path={`${basePath}/user_screen.html`} element={<Userscreen />} />
+          <Route path={`${basePath}/user_screen`} element={<Userscreen />} />
+          <Route path={`${basePath}/mo_user_screen.html`} element={<MoUserScreen />} />
+          <Route path={`${basePath}/mo_user_screen`} element={<MoUserScreen />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
