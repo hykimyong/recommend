@@ -6,14 +6,15 @@ import useSearchData from '../hook/useSearchData';
 
 const BjSearch = () => {
     const [inputValue, setInputValue] = useState<string | null>(null);
-    console.log(1);
+    
     const { data, refetch } = useSearchData(inputValue);
 
+    // console.log(data);
     useEffect(() => {
-        console.log(2);
         if (inputValue !== null) {
-            refetch();
+            refetch({ queryKey: ['search', { keyword: inputValue }] });
         }
+        
     }, [inputValue, refetch]);
 
     const handleInputChange = (event: React.ChangeEvent<{}>, value: string | null) => {
