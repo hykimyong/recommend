@@ -9,7 +9,6 @@ const BjSearch = () => {
     
     const { data, refetch } = useSearchData(inputValue);
 
-    // console.log(data);
     useEffect(() => {
         if (inputValue !== null) {
             refetch({ queryKey: ['search', { keyword: inputValue }] });
