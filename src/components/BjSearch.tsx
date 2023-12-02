@@ -3,17 +3,19 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import React, { useEffect, useState } from 'react';
 import useSearchData from '../hook/useSearchData';
+import useMakeProfileImg from '../hook/makeProfileImg';
 
 const BjSearch = () => {
     const [inputValue, setInputValue] = useState<string | null>(null);
     
     const { data, refetch } = useSearchData(inputValue);
 
+    const makeProfileImg = useMakeProfileImg();
+    
     useEffect(() => {
         if (inputValue !== null) {
             refetch({ queryKey: ['search', { keyword: inputValue }] });
-        }
-        
+        }   
     }, [inputValue, refetch]);
 
     const handleInputChange = (event: React.ChangeEvent<{}>, value: string | null) => {
@@ -21,36 +23,40 @@ const BjSearch = () => {
     };
     
     return (
-        <Autocomplete
-        id="country-select-demo"
-        sx={{ width: 300 }}
-        options={countries}
-        autoHighlight
-        getOptionLabel={(option) => option.label}
-        onInputChange={handleInputChange}
-        renderOption={(props, option) => (
-            <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-            <img
-                loading="lazy"
-                width="20"
-                srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                alt=""
-            />
-            {option.label} ({option.code}) +{option.phone}
-            </Box>
+      <>
+        {(
+          <Autocomplete
+          id="country-select-demo"
+          sx={{ width: 300 }}
+          options={data ? data.data.suggest_bj : []}
+          autoHighlight
+          getOptionLabel={(option) => option.user_nick}
+          onInputChange={handleInputChange}
+          renderOption={(props, option) => (
+              <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+              <img
+                  loading="lazy"
+                  width="20"
+                  src={makeProfileImg(option.user_id)}
+                  alt=""
+              />
+              {option.user_nick}
+              </Box>
+          )}
+          renderInput={(params) => (
+              <TextField
+              {...params}
+              label="닉네임을 입력하세요"
+              inputProps={{
+                  ...params.inputProps,
+                  autoComplete: 'new-password', // disable autocomplete and autofill
+              }}
+              />
+          )}
+          />
         )}
-        renderInput={(params) => (
-            <TextField
-            {...params}
-            label="Choose a country"
-            inputProps={{
-                ...params.inputProps,
-                autoComplete: 'new-password', // disable autocomplete and autofill
-            }}
-            />
-        )}
-        />
+      </>
+        
     );
 }
 
