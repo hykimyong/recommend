@@ -82,7 +82,7 @@ const Register: React.FC = () => {
         {/* <TextField inputRef ={bjIdRef} onChange={handleInputChange} id="standard-basic" label="아이디" variant="standard" />
         <TextField inputRef ={bjNickRef} id="standard-basic" label="닉네임" variant="standard" /> */}
         <BjSearch/>
-        <Button variant="contained" onClick={handleClick}>추가</Button>  
+        {/* <Button variant="contained" onClick={handleClick}>추가</Button>   */}
       </Box>
       <br/>
       {invalidCheckText && <FormLabel className='Mui-error'>{invalidCheckText}</FormLabel>}
