@@ -17,16 +17,6 @@ const Register: React.FC = () => {
     
 
     const { isTrue } = useStore();
-
-    const handleInputChange = () => {
-        const inputValue = bjIdRef.current?.value || '';
-        if (!/^[a-zA-Z0-9]+$/.test(inputValue)) {
-          setInvalidCheckText("아이디는 영문과 숫자만 입력가능합니다.");
-          bjIdRef.current!.value = inputValue.replace(/[^a-zA-Z0-9]/g, '');
-        }else{
-          setInvalidCheckText("");
-        }
-      };
     
     const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', []);
 
@@ -79,10 +69,7 @@ const Register: React.FC = () => {
         noValidate
         autoComplete="off"
       >
-        {/* <TextField inputRef ={bjIdRef} onChange={handleInputChange} id="standard-basic" label="아이디" variant="standard" />
-        <TextField inputRef ={bjNickRef} id="standard-basic" label="닉네임" variant="standard" /> */}
         <BjSearch/>
-        {/* <Button variant="contained" onClick={handleClick}>추가</Button>   */}
       </Box>
       <br/>
       {invalidCheckText && <FormLabel className='Mui-error'>{invalidCheckText}</FormLabel>}
