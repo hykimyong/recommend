@@ -5,6 +5,9 @@ import React, { useEffect, useState } from 'react';
 import useSearchData from '../hook/useSearchData';
 import useMakeProfileImg from '../hook/makeProfileImg';
 import { SuggestBj } from '../types/search';
+import { useLocalStorage } from 'usehooks-ts';
+import { IAuthInfo, IBroadInfo, IPlayerInfo } from '../types/extensionInterface';
+import { useStore } from '../store/scriptLoad';
 
 const BjSearch = () => {
     const [inputValue, setInputValue] = useState<string | null>(null);
@@ -12,6 +15,31 @@ const BjSearch = () => {
     const { data, refetch } = useSearchData(inputValue);
 
     const makeProfileImg = useMakeProfileImg();
+
+    const { isTrue } = useStore();
+
+    const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', []);
+
+    useEffect(()=>{
+      
+      if(isTrue){
+        extensionSDK.handleInitialization((authInfo :IAuthInfo, broadInfo:IBroadInfo, playerInfo: IPlayerInfo)=>{
+          extensionSDK.broadcast.listen(function(action : string, message :string, fromId:string){
+              //유저측에서 리스트달라면 send
+              if(action === "recommend-user-list"){
+                extensionSDK.broadcast.send("recommend-user",recommendBjList);
+              }
+            });
+          })
+        }
+      },[isTrue,recommendBjList]);
+
+    useEffect(()=>{
+      if(isTrue){
+        extensionSDK.broadcast.send("recommend-user",recommendBjList);
+      }
+    },[recommendBjList,isTrue]);
+
     
     useEffect(() => {
         if (inputValue !== null) {
@@ -23,14 +51,17 @@ const BjSearch = () => {
         setInputValue(value);
     };
 
-    const handleChange = (event: React.ChangeEvent<{}>, value: SuggestBj) =>{
+    const handleChange = (
+      event: React.ChangeEvent<{}>,
+      value: SuggestBj
+    ) =>{
       console.log(event);
-      console.log(value.user_id);
+      console.log((event.target as HTMLInputElement).tagName);
+      if((event.target as HTMLInputElement).tagName === "LI"){
+        setRecommendBjList([...recommendBjList, {bjId:value.user_id, bjNick : value.user_nick}]);
+      }
     }
 
-
-    
-    
     return (
       <>
         {(
@@ -42,7 +73,7 @@ const BjSearch = () => {
           getOptionLabel={(option) => option.user_nick}
           isOptionEqualToValue={(option, value) => option.user_id === value.user_id}
           onInputChange={handleInputChange}
-          onChange={handleChange}
+          onChange={(event, value) => handleChange(event, value)}
           renderOption={(props, option) => (
               <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
               <img
