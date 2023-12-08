@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete, { AutocompleteChangeReason } from '@mui/material/Autocomplete';
 import React, { useEffect, useState } from 'react';
 import useSearchData from '../hook/useSearchData';
 import useMakeProfileImg from '../hook/makeProfileImg';
@@ -53,12 +53,14 @@ const BjSearch = () => {
 
     const handleChange = (
       event: React.ChangeEvent<{}>,
-      value: SuggestBj
+      value: SuggestBj,
+      reason: AutocompleteChangeReason
     ) =>{
-      console.log(event);
-      console.log((event.target as HTMLInputElement).tagName);
-      if((event.target as HTMLInputElement).tagName === "LI"){
-        setRecommendBjList([...recommendBjList, {bjId:value.user_id, bjNick : value.user_nick}]);
+      if(reason === "selectOption"){
+        const isBjIdDuplicate = recommendBjList.some(item => item.bjId === value.user_id);
+        if (!isBjIdDuplicate) {
+          setRecommendBjList([...recommendBjList, {bjId:value.user_id, bjNick : value.user_nick}]);
+        }
       }
     }
 
@@ -73,7 +75,7 @@ const BjSearch = () => {
           getOptionLabel={(option) => option.user_nick}
           isOptionEqualToValue={(option, value) => option.user_id === value.user_id}
           onInputChange={handleInputChange}
-          onChange={(event, value) => handleChange(event, value)}
+          onChange={(event, value, reason) => handleChange(event, value, reason)}
           renderOption={(props, option) => (
               <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
               <img

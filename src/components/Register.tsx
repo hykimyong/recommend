@@ -1,59 +1,12 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React from 'react'
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import { FormLabel } from '@mui/material';
-import { useLocalStorage } from 'usehooks-ts';
-import { IAuthInfo,IBroadInfo,IPlayerInfo } from '../types/extensionInterface';
-import { useStore } from '../store/scriptLoad';
 import BjSearch from './BjSearch';
 
 
 const Register: React.FC = () => {
 
-    const bjIdRef = useRef<HTMLTextAreaElement>();
-    const bjNickRef = useRef<HTMLTextAreaElement>();
-    const [invalidCheckText, setInvalidCheckText] = useState("");
     
-
-    const { isTrue } = useStore();
-    
-    const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', []);
-
-    useEffect(()=>{
-      
-      if(isTrue){
-        extensionSDK.handleInitialization((authInfo :IAuthInfo, broadInfo:IBroadInfo, playerInfo: IPlayerInfo)=>{
-          extensionSDK.broadcast.listen(function(action : string, message :string, fromId:string){
-              //유저측에서 리스트달라면 send
-              if(action === "recommend-user-list"){
-                extensionSDK.broadcast.send("recommend-user",recommendBjList);
-              }
-            });
-          })
-        }
-      },[isTrue,recommendBjList]);
-
-    useEffect(()=>{
-      if(isTrue){
-        extensionSDK.broadcast.send("recommend-user",recommendBjList);
-      }
-    },[recommendBjList,isTrue]);
-
-    const handleClick = ()=>{
-        if(recommendBjList.some(item => item.bjId === bjIdRef.current?.value)){
-          setInvalidCheckText('이미등록된 아이디입니다.');
-        }else if(!bjIdRef.current?.value){
-          setInvalidCheckText('아이디를 입력해주세요.');
-        }else if(!bjNickRef.current?.value){
-          setInvalidCheckText('비제이 닉네임을 입력해주세요');
-        }else{
-            setRecommendBjList([...recommendBjList, {bjId:bjIdRef.current?.value, bjNick : bjNickRef.current?.value}]);
-            bjIdRef.current.value = "";
-            bjNickRef.current.value = "";
-            setInvalidCheckText("");
-        }
-    }
 
   return (
     <>
@@ -71,8 +24,6 @@ const Register: React.FC = () => {
       >
         <BjSearch/>
       </Box>
-      <br/>
-      {invalidCheckText && <FormLabel className='Mui-error'>{invalidCheckText}</FormLabel>}
       <br/>
       </>
   )
