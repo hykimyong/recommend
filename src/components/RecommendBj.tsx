@@ -6,7 +6,6 @@ import EmptyItem from './EmptyItem';
 const RecommendBj: React.FC = () => {
 
   const { isTrue } = useStore();
-  // const [recommendBjList,setRecommendBjList] = useState<{ bjId: string; bjNick: string }[]>([{bjId:"khm11903",bjNick:"봉준"},{bjId:"lshooooo",bjNick:"lee상호"},{bjId:"y1026",bjNick:"철구"},{bjId:"wnnw",bjNick:"남순"},{bjId:"devil0108",bjNick:"감스트"},{bjId:"rrvv17",bjNick:"킴성태"}]);
   const [recommendBjList,setRecommendBjList] = useState<{ bjId: string; bjNick: string }[]>([]);
     
   useEffect(()=>{
