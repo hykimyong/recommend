@@ -8,6 +8,7 @@ import { SuggestBj } from '../types/search';
 import { useLocalStorage } from 'usehooks-ts';
 import { IAuthInfo, IBroadInfo, IPlayerInfo } from '../types/extensionInterface';
 import { useStore } from '../store/scriptLoad';
+import { useLengthStore } from '../store/bjlengthCheck';
 
 const BjSearch = () => {
     const [inputValue, setInputValue] = useState<string | null>(null);
@@ -17,6 +18,8 @@ const BjSearch = () => {
     const makeProfileImg = useMakeProfileImg();
 
     const { isTrue } = useStore();
+    const { setTrue,setFalse } = useLengthStore();
+    
 
     const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', []);
 
@@ -58,8 +61,11 @@ const BjSearch = () => {
     ) =>{
       if(reason === "selectOption"){
         const isBjIdDuplicate = recommendBjList.some(item => item.bjId === value.user_id);
-        if (!isBjIdDuplicate) {
+        if (!isBjIdDuplicate && recommendBjList.length < 20) {
+          setFalse();
           setRecommendBjList([...recommendBjList, {bjId:value.user_id, bjNick : value.user_nick}]);
+        }else{
+          setTrue();
         }
       }
     }

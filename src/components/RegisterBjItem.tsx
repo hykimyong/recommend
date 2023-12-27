@@ -11,6 +11,7 @@ import Delete from '@mui/icons-material/Delete';
 import useOpenNewWindow from '../hook/useOpenNewWindow';
 import Typography from '@mui/material/Typography';
 import { useLocalStorage } from 'usehooks-ts';
+import { useLengthStore } from '../store/bjlengthCheck';
 
 
 interface Props {
@@ -24,7 +25,9 @@ const RegisterBjItem: React.FC<Props> = ({bjId,bjNick,display}) => {
   const textColor = display ? 'black' : 'white';
   const textColor2 = display ? 'gray' : 'white';
 
-  const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', [])
+  const [recommendBjList, setRecommendBjList] = useLocalStorage<{ bjId: string; bjNick: string }[]>('recommendBjList', []);
+
+  const { setTrue,setFalse } = useLengthStore();
 
   const makeProfileImg = useMakeProfileImg();
   
@@ -33,6 +36,11 @@ const RegisterBjItem: React.FC<Props> = ({bjId,bjNick,display}) => {
   const handleRemove = () =>{
     const updatedBjList = recommendBjList.filter((bj) => bj.bjId !== bjId);
     setRecommendBjList(updatedBjList);
+    if(updatedBjList.length <= 20){
+      setFalse();
+    }else{
+      setTrue();
+    }
   }
 
 
