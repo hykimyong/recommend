@@ -6,7 +6,6 @@ import useSearchData from '../hook/useSearchData';
 import useMakeProfileImg from '../hook/makeProfileImg';
 import { SuggestBj } from '../types/search';
 import { useLocalStorage } from 'usehooks-ts';
-import { IAuthInfo, IBroadInfo, IPlayerInfo } from '../types/extensionInterface';
 import { useStore } from '../store/scriptLoad';
 import { useLengthStore } from '../store/bjlengthCheck';
 
@@ -26,14 +25,12 @@ const BjSearch = () => {
     useEffect(()=>{
       
       if(isTrue){
-        extensionSDK.handleInitialization((authInfo :IAuthInfo, broadInfo:IBroadInfo, playerInfo: IPlayerInfo)=>{
           extensionSDK.broadcast.listen(function(action : string, message :string, fromId:string){
               //유저측에서 리스트달라면 send
               if(action === "recommend-user-list"){
                 extensionSDK.broadcast.send("recommend-user",recommendBjList);
               }
             });
-          })
         }
       },[isTrue,recommendBjList]);
 
@@ -64,7 +61,7 @@ const BjSearch = () => {
         if (!isBjIdDuplicate && recommendBjList.length < 20) {
           setFalse();
           setRecommendBjList([...recommendBjList, {bjId:value.user_id, bjNick : value.user_nick}]);
-        }else{
+        }else if(recommendBjList.length >= 20){
           setTrue();
         }
       }
